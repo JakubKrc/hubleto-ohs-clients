@@ -1,6 +1,6 @@
 <?php
 
-namespace Hubleto\App\External\WaiBlue\HlthcrClients\Models\Migrations;
+namespace Hubleto\App\External\WaiBlue\OhsClients\Models\Migrations;
 
 use Hubleto\Framework\Migration;
 
@@ -8,7 +8,7 @@ use Hubleto\Framework\Migration;
 // A new install adds them later anyway (CustomerColumns::installMissingColumns), so they are added only when missing.
 class ClientType_0004 extends Migration
 {
-  const CONTRACT_DATE_COLUMNS = ['hlthcr_contract_valid_from', 'hlthcr_contract_valid_to'];
+  const CONTRACT_DATE_COLUMNS = ['ohs_contract_valid_from', 'ohs_contract_valid_to'];
 
   public function upgradeSchema(): void
   {

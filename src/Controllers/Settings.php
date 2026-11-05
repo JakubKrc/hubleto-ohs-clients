@@ -1,15 +1,15 @@
 <?php
 
-namespace Hubleto\App\External\WaiBlue\HlthcrClients\Controllers;
+namespace Hubleto\App\External\WaiBlue\OhsClients\Controllers;
 
-use Hubleto\App\External\WaiBlue\HlthcrClients\Services\CustomerColumns;
+use Hubleto\App\External\WaiBlue\OhsClients\Services\CustomerColumns;
 
 class Settings extends \Hubleto\Erp\Controller
 {
   public function getBreadcrumbs(): array
   {
     return array_merge(parent::getBreadcrumbs(), [
-      ['url' => 'hlthcr-clients', 'content' => $this->translate('Client data')],
+      ['url' => 'ohs/clients', 'content' => $this->translate('Client data')],
       ['url' => 'settings', 'content' => $this->translate('Settings')],
     ]);
   }
@@ -18,10 +18,10 @@ class Settings extends \Hubleto\Erp\Controller
   {
     parent::prepareView();
 
-    $clientsApp = $this->appManager()->getApp(\Hubleto\App\External\WaiBlue\HlthcrClients\Loader::class);
+    $clientsApp = $this->appManager()->getApp(\Hubleto\App\External\WaiBlue\OhsClients\Loader::class);
 
-    /** @var \Hubleto\App\External\WaiBlue\HlthcrCore\Services\Roles */
-    $roles = $this->getService(\Hubleto\App\External\WaiBlue\HlthcrCore\Services\Roles::class);
+    /** @var \Hubleto\App\External\WaiBlue\OhsCore\Services\Roles */
+    $roles = $this->getService(\Hubleto\App\External\WaiBlue\OhsCore\Services\Roles::class);
     $maySaveSettings = $roles->isActiveUserAdministratorOrManager();
     $this->viewParams['maySaveSettings'] = $maySaveSettings;
 
@@ -35,6 +35,6 @@ class Settings extends \Hubleto\Erp\Controller
     }
 
     $this->viewParams['defaultAuditIntervalMonths'] = $this->getService(CustomerColumns::class)->getDefaultAuditIntervalMonths();
-    $this->setView('@Hubleto:App:External:WaiBlue:HlthcrClients/Settings.twig');
+    $this->setView('@Hubleto:App:External:WaiBlue:OhsClients/Settings.twig');
   }
 }

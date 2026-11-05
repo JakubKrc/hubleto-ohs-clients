@@ -1,8 +1,8 @@
 <?php
 
-namespace Hubleto\App\External\WaiBlue\HlthcrClients\Controllers\Api;
+namespace Hubleto\App\External\WaiBlue\OhsClients\Controllers\Api;
 
-use Hubleto\App\External\WaiBlue\HlthcrClients\Services\EmailExport;
+use Hubleto\App\External\WaiBlue\OhsClients\Services\EmailExport;
 
 class DownloadEmailExport extends \Hubleto\Erp\Controller
 {

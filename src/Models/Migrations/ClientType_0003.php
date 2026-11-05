@@ -1,6 +1,6 @@
 <?php
 
-namespace Hubleto\App\External\WaiBlue\HlthcrClients\Models\Migrations;
+namespace Hubleto\App\External\WaiBlue\OhsClients\Models\Migrations;
 
 use Hubleto\Framework\Migration;
 
@@ -12,16 +12,16 @@ class ClientType_0003 extends Migration
   {
     $columns = $this->db->fetchAll(
       "SELECT COLUMN_NAME FROM information_schema.COLUMNS
-        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'customers' AND COLUMN_NAME = 'hlthcr_employee_count_at_risk'"
+        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'customers' AND COLUMN_NAME = 'ohs_employee_count_at_risk'"
     );
     if (count($columns) > 0) return;
 
-    $this->db->execute("ALTER TABLE `customers` ADD COLUMN `hlthcr_employee_count_at_risk` int(8) NULL DEFAULT NULL");
+    $this->db->execute("ALTER TABLE `customers` ADD COLUMN `ohs_employee_count_at_risk` int(8) NULL DEFAULT NULL");
   }
 
   public function downgradeSchema(): void
   {
-    $this->db->execute("ALTER TABLE `customers` DROP COLUMN `hlthcr_employee_count_at_risk`");
+    $this->db->execute("ALTER TABLE `customers` DROP COLUMN `ohs_employee_count_at_risk`");
   }
 
   public function upgradeForeignKeys(): void

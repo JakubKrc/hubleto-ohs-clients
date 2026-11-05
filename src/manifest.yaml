@@ -1,14 +1,14 @@
-namespace: Hubleto\App\External\WaiBlue\HlthcrClients
+namespace: Hubleto\App\External\WaiBlue\OhsClients
 appType: external
 sidebarGroup: custom
-rootUrlSlug: hlthcr-clients
+rootUrlSlug: ohs/clients
 name: Client data
 icon: fas fa-at
 author:
-  name: "Hlthcr"
-  nick: "hlthcr"
+  name: "Ohs"
+  nick: "ohs"
 highlight: Extends Customers with the occupational-health client data both legacy apps keep (client type, employees, audit interval) and exports contact e-mails.
 requires:
   - Hubleto\App\Community\Customers
   - Hubleto\App\Community\Contacts
-  - Hubleto\App\External\WaiBlue\HlthcrCore
+  - Hubleto\App\External\WaiBlue\OhsCore

@@ -1,13 +1,13 @@
 <?php
 
-namespace Hubleto\App\External\WaiBlue\HlthcrClients;
+namespace Hubleto\App\External\WaiBlue\OhsClients;
 
 use Hubleto\App\Community\Contacts\Models\Contact;
 use Hubleto\App\Community\Contacts\Models\Value as ContactValue;
 use Hubleto\App\Community\Customers\Models\Customer;
-use Hubleto\App\External\WaiBlue\HlthcrCore\Services\DemoData;
+use Hubleto\App\External\WaiBlue\OhsCore\Services\DemoData;
 
-class Loader extends \Hubleto\App\External\WaiBlue\HlthcrCore\HlthcrApp
+class Loader extends \Hubleto\App\External\WaiBlue\OhsCore\OhsApp
 {
   // Starting values of the client type code list (the types both legacy apps share).
   const DEFAULT_CLIENT_TYPES = ['Paušálny dohľad', 'Audit/reaudit', 'Kombinácia'];
@@ -25,19 +25,19 @@ class Loader extends \Hubleto\App\External\WaiBlue\HlthcrCore\HlthcrApp
     parent::init();
 
     $this->router()->get([
-      '/^hlthcr-clients\/?$/' => Controllers\Home::class,
-      '/^hlthcr-clients\/settings\/?$/' => Controllers\Settings::class,
-      '/^hlthcr-clients\/email-export\/?$/' => Controllers\EmailExport::class,
-      '/^hlthcr-clients\/api\/download-email-export\/?$/' => Controllers\Api\DownloadEmailExport::class,
+      '/^ohs\/clients\/?$/' => Controllers\Home::class,
+      '/^ohs\/clients\/settings\/?$/' => Controllers\Settings::class,
+      '/^ohs\/clients\/email-export\/?$/' => Controllers\EmailExport::class,
+      '/^ohs\/clients\/api\/download-email-export\/?$/' => Controllers\Api\DownloadEmailExport::class,
     ]);
-    $this->router()->crud('hlthcr-clients/client-types', Controllers\ClientTypes::class);
+    $this->router()->crud('ohs/clients/client-types', Controllers\ClientTypes::class);
 
     /** @var \Hubleto\App\Community\Settings\Loader $settingsApp */
     $settingsApp = $this->appManager()->getApp(\Hubleto\App\Community\Settings\Loader::class);
     $settingsApp->addSetting($this, [
       'title' => $this->translate('Client types'),
       'icon' => 'fas fa-tags',
-      'url' => 'hlthcr-clients/client-types',
+      'url' => 'ohs/clients/client-types',
     ]);
 
     // Client type, number of employees and audit interval are columns of the community Customer model.
@@ -74,9 +74,9 @@ class Loader extends \Hubleto\App\External\WaiBlue\HlthcrCore\HlthcrApp
       ' . $this->secondSidebarTitle() . '
       <div class="app-sidebar-buttons">
         ' . $this->secondSidebarButton('customers', 'fas fa-building', $this->translate('Clients')) . '
-        ' . $this->secondSidebarButton('hlthcr-clients/client-types', 'fas fa-tags', $this->translate('Client types')) . '
-        ' . $this->secondSidebarButton('hlthcr-clients/email-export', 'fas fa-at', $this->translate('Export of e-mail addresses')) . '
-        ' . $this->secondSidebarButton('hlthcr-clients/settings', 'fas fa-cog', $this->translate('Settings')) . '
+        ' . $this->secondSidebarButton('ohs/clients/client-types', 'fas fa-tags', $this->translate('Client types')) . '
+        ' . $this->secondSidebarButton('ohs/clients/email-export', 'fas fa-at', $this->translate('Export of e-mail addresses')) . '
+        ' . $this->secondSidebarButton('ohs/clients/settings', 'fas fa-cog', $this->translate('Settings')) . '
       </div>
     ';
   }
@@ -91,7 +91,7 @@ class Loader extends \Hubleto\App\External\WaiBlue\HlthcrCore\HlthcrApp
     return 0;
   }
 
-  public function generateHlthcrDemoData(): void
+  public function generateOhsDemoData(): void
   {
     /** @var Customer */
     $mCustomer = $this->getModel(Customer::class);
@@ -128,9 +128,9 @@ class Loader extends \Hubleto\App\External\WaiBlue\HlthcrCore\HlthcrApp
       // Set directly: during "php hubleto init" the Customer model is loaded before this app adds its columns,
       // so recordCreate() would skip them.
       $mCustomer->record->where('id', $createdCustomer['id'])->update([
-        'id_hlthcr_client_type' => $clientTypeIdsByName[$demoClient['client_type']] ?? null,
-        'hlthcr_employee_count' => $demoClient['employee_count'],
-        'hlthcr_audit_interval_months' => $defaultAuditIntervalMonths,
+        'id_ohs_client_type' => $clientTypeIdsByName[$demoClient['client_type']] ?? null,
+        'ohs_employee_count' => $demoClient['employee_count'],
+        'ohs_audit_interval_months' => $defaultAuditIntervalMonths,
       ]);
       $this->ensureDemoContactPerson((int) $createdCustomer['id'], $demoClient['company_id']);
     }

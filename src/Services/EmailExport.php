@@ -1,12 +1,12 @@
 <?php
 
-namespace Hubleto\App\External\WaiBlue\HlthcrClients\Services;
+namespace Hubleto\App\External\WaiBlue\OhsClients\Services;
 
 use Hubleto\App\Community\Auth\Models\User;
 use Hubleto\App\Community\Auth\Models\UserRole;
 use Hubleto\App\Community\Contacts\Models\Contact;
-use Hubleto\App\External\WaiBlue\HlthcrCore\Services\AccessScope;
-use Hubleto\App\External\WaiBlue\HlthcrCore\Services\Roles;
+use Hubleto\App\External\WaiBlue\OhsCore\Services\AccessScope;
+use Hubleto\App\External\WaiBlue\OhsCore\Services\Roles;
 
 /**
  * E-mail addresses for the CSV export of both legacy apps ("Export emailových adries"):
@@ -18,7 +18,7 @@ class EmailExport extends \Hubleto\Erp\Core
   const OPTION_CLIENT_CONTACTS = 'client-contacts';
   const OPTION_ROLE_PREFIX = 'role-';
 
-  public string $translationContext = 'hubleto-app-external-waiblue-hlthcrclients-loader';
+  public string $translationContext = 'hubleto-app-external-waiblue-ohsclients-loader';
   public string $translationContextInner = 'Services\\EmailExport';
 
   // [option value => label] for the export form.

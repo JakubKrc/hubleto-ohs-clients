@@ -1,8 +1,8 @@
 <?php
 
-namespace Hubleto\App\External\WaiBlue\HlthcrClients\HubletoOverrides;
+namespace Hubleto\App\External\WaiBlue\OhsClients\HubletoOverrides;
 
-use Hubleto\App\External\WaiBlue\HlthcrCore\Services\AccessScope;
+use Hubleto\App\External\WaiBlue\OhsCore\Services\AccessScope;
 
 /**
  * Contact persons of the clients the user may see, also in dropdowns. Medical staff see none (both legacy apps).

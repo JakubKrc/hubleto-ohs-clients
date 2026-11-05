@@ -1,13 +1,13 @@
 {
-    "name": "wai-blue/hubleto-hlthcr-clients",
+    "name": "wai-blue/hubleto-ohs-clients",
     "license": "proprietary",
-    "description": "Hlthcr for Hubleto: Clients (employers) of an occupational health service on Hubleto Customers: client types, audit interval, e-mail export",
+    "description": "Ohs for Hubleto: Clients (employers) of an occupational health service on Hubleto Customers: client types, audit interval, e-mail export",
     "require": {
-        "wai-blue/hubleto-hlthcr-core": "dev-main"
+        "wai-blue/hubleto-ohs-core": "dev-main"
     },
     "autoload": {
         "psr-4": {
-            "Hubleto\\App\\External\\WaiBlue\\HlthcrClients\\": "src"
+            "Hubleto\\App\\External\\WaiBlue\\OhsClients\\": "src"
         }
     },
     "minimum-stability": "dev"

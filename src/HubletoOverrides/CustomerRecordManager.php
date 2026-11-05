@@ -1,9 +1,9 @@
 <?php
 
-namespace Hubleto\App\External\WaiBlue\HlthcrClients\HubletoOverrides;
+namespace Hubleto\App\External\WaiBlue\OhsClients\HubletoOverrides;
 
-use Hubleto\App\External\WaiBlue\HlthcrCore\Models\RecordManagers\Traits\OffersActiveRecords;
-use Hubleto\App\External\WaiBlue\HlthcrCore\Services\AccessScope;
+use Hubleto\App\External\WaiBlue\OhsCore\Models\RecordManagers\Traits\OffersActiveRecords;
+use Hubleto\App\External\WaiBlue\OhsCore\Services\AccessScope;
 
 /**
  * Customers the user may see, also in dropdowns (a hygienist: own clients).
@@ -14,8 +14,8 @@ class CustomerRecordManager extends \Hubleto\App\Community\Customers\Models\Reco
 
   public function prepareReadQuery(mixed $query = null, int $level = 0, array|null $includeRelations = null): mixed
   {
-    if ($this->accessScope()->activeUserHasHlthcrRole()) {
-      // The Hlthcr role decides, so Hubleto's limit by user type is left out (customers have no junctions).
+    if ($this->accessScope()->activeUserHasOhsRole()) {
+      // The Ohs role decides, so Hubleto's limit by user type is left out (customers have no junctions).
       $query = \Hubleto\Framework\RecordManager::prepareReadQuery($query, $level, $includeRelations);
       $query = $this->addTagsCount($query);
     } else {

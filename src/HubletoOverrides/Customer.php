@@ -1,24 +1,24 @@
 <?php
 
-namespace Hubleto\App\External\WaiBlue\HlthcrClients\HubletoOverrides;
+namespace Hubleto\App\External\WaiBlue\OhsClients\HubletoOverrides;
 
 use Hubleto\App\Community\Customers\Models\Customer as CommunityCustomer;
 
 /**
- * Hubleto's Customer model with the Hlthcr client visibility (registered in the HlthcrClients loader).
+ * Hubleto's Customer model with the Ohs client visibility (registered in the OhsClients loader).
  * Hubleto's own customer dropdown shows every client name to everybody (see the patches documents).
  */
 class Customer extends CommunityCustomer
 {
-  use \Hubleto\App\External\WaiBlue\HlthcrCore\Models\Traits\BehavesAsCommunityModel;
-  use \Hubleto\App\External\WaiBlue\HlthcrCore\Models\Traits\OffersOnlyAllowedChanges;
-  use \Hubleto\App\External\WaiBlue\HlthcrCore\Models\Traits\UsesStoredValues;
-  use \Hubleto\App\External\WaiBlue\HlthcrCore\Models\Traits\EmptyDatesAsNull;
-  use \Hubleto\App\External\WaiBlue\HlthcrCore\Models\Traits\UsesCommunityCustomColumns;
+  use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\BehavesAsCommunityModel;
+  use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\OffersOnlyAllowedChanges;
+  use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\UsesStoredValues;
+  use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\EmptyDatesAsNull;
+  use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\UsesCommunityCustomColumns;
 
   public string $recordManagerClass = CustomerRecordManager::class;
 
-  // Hubleto's dropdown text prefers the identifier, which Hlthcr does not offer: the client's name instead.
+  // Hubleto's dropdown text prefers the identifier, which Ohs does not offer: the client's name instead.
   public ?string $lookupSqlValue = '{%TABLE%}.name';
 
   // Hubleto fields that neither legacy app has: not offered in the form or the list (the columns stay).
@@ -40,9 +40,9 @@ class Customer extends CommunityCustomer
   }
 
   // Counts and intervals of the occupational health columns cannot be negative.
-  const NOT_NEGATIVE_COLUMNS = ['hlthcr_employee_count', 'hlthcr_employee_count_at_risk', 'hlthcr_audit_interval_months'];
+  const NOT_NEGATIVE_COLUMNS = ['ohs_employee_count', 'ohs_employee_count_at_risk', 'ohs_audit_interval_months'];
 
-  const CONTRACT_DATE_COLUMNS = ['hlthcr_contract_valid_from', 'hlthcr_contract_valid_to'];
+  const CONTRACT_DATE_COLUMNS = ['ohs_contract_valid_from', 'ohs_contract_valid_to'];
 
   public function onBeforeCreate(array $record): array
   {
@@ -66,8 +66,8 @@ class Customer extends CommunityCustomer
 
   private function refuseContractEndingBeforeStart(array $record): void
   {
-    $validFrom = (string) ($record['hlthcr_contract_valid_from'] ?? '');
-    $validTo = (string) ($record['hlthcr_contract_valid_to'] ?? '');
+    $validFrom = (string) ($record['ohs_contract_valid_from'] ?? '');
+    $validTo = (string) ($record['ohs_contract_valid_to'] ?? '');
     $hasBothDates = $validFrom != '' && $validTo != '';
     if ($hasBothDates && $validTo < $validFrom) {
       throw new \Hubleto\Framework\Exceptions\RecordSaveException($this->translate('The contract cannot end before it starts.'));
@@ -85,7 +85,7 @@ class Customer extends CommunityCustomer
     }
   }
 
-  // HlthcrClients stores its custom columns for the community model.
+  // OhsClients stores its custom columns for the community model.
   public function describeColumns(): array
   {
     $columns = $this->addCommunityCustomColumns(parent::describeColumns(), CommunityCustomer::class);
@@ -93,8 +93,8 @@ class Customer extends CommunityCustomer
     // The client list of both legacy apps shows the street, not the notes, the audit interval or the contract start.
     if (isset($columns['street_line_1'])) $columns['street_line_1']->setDefaultVisible();
     if (isset($columns['note'])) $columns['note']->setDefaultHidden();
-    if (isset($columns['hlthcr_audit_interval_months'])) $columns['hlthcr_audit_interval_months']->setDefaultHidden();
-    if (isset($columns['hlthcr_contract_valid_from'])) $columns['hlthcr_contract_valid_from']->setDefaultHidden();
+    if (isset($columns['ohs_audit_interval_months'])) $columns['ohs_audit_interval_months']->setDefaultHidden();
+    if (isset($columns['ohs_contract_valid_from'])) $columns['ohs_contract_valid_from']->setDefaultHidden();
 
     return $columns;
   }

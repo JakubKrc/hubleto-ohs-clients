@@ -1,10 +1,10 @@
 <?php
 
-namespace Hubleto\App\External\WaiBlue\HlthcrClients\Services;
+namespace Hubleto\App\External\WaiBlue\OhsClients\Services;
 
 use Hubleto\App\Community\Customers\Models\Customer;
-use Hubleto\App\External\WaiBlue\HlthcrCore\Controllers\Api\UserLookup;
-use Hubleto\App\External\WaiBlue\HlthcrCore\Services\Roles;
+use Hubleto\App\External\WaiBlue\OhsCore\Controllers\Api\UserLookup;
+use Hubleto\App\External\WaiBlue\OhsCore\Services\Roles;
 
 /**
  * Extra columns on the community "customers" table: the client data both legacy apps keep.
@@ -15,7 +15,7 @@ class CustomerColumns extends \Hubleto\Erp\Core
   // Used for new clients when the settings have no other value (both apps audit every two years by default).
   const DEFAULT_AUDIT_INTERVAL_MONTHS = 24;
 
-  public string $translationContext = 'hubleto-app-external-waiblue-hlthcrclients-loader';
+  public string $translationContext = 'hubleto-app-external-waiblue-ohsclients-loader';
   public string $translationContextInner = 'Services\\CustomerColumns';
 
   /**
@@ -24,12 +24,12 @@ class CustomerColumns extends \Hubleto\Erp\Core
   public function getSqlTypes(): array
   {
     return [
-      'id_hlthcr_client_type' => 'int(8) NULL DEFAULT NULL',
-      'hlthcr_employee_count' => 'int(8) NULL DEFAULT NULL',
-      'hlthcr_employee_count_at_risk' => 'int(8) NULL DEFAULT NULL',
-      'hlthcr_audit_interval_months' => 'int(8) NULL DEFAULT NULL',
-      'hlthcr_contract_valid_from' => 'date NULL DEFAULT NULL',
-      'hlthcr_contract_valid_to' => 'date NULL DEFAULT NULL',
+      'id_ohs_client_type' => 'int(8) NULL DEFAULT NULL',
+      'ohs_employee_count' => 'int(8) NULL DEFAULT NULL',
+      'ohs_employee_count_at_risk' => 'int(8) NULL DEFAULT NULL',
+      'ohs_audit_interval_months' => 'int(8) NULL DEFAULT NULL',
+      'ohs_contract_valid_from' => 'date NULL DEFAULT NULL',
+      'ohs_contract_valid_to' => 'date NULL DEFAULT NULL',
     ];
   }
 
@@ -40,22 +40,22 @@ class CustomerColumns extends \Hubleto\Erp\Core
   public function getColumnDefinitions(): array
   {
     return [
-      'id_hlthcr_client_type' => [
+      'id_ohs_client_type' => [
         'class' => 'Lookup',
         'title' => $this->translate('Client type'),
         'required' => true,
-        'lookupModel' => \Hubleto\App\External\WaiBlue\HlthcrClients\Models\ClientType::class,
+        'lookupModel' => \Hubleto\App\External\WaiBlue\OhsClients\Models\ClientType::class,
       ],
-      'hlthcr_employee_count' => [
+      'ohs_employee_count' => [
         'class' => 'Integer',
         'title' => $this->translate('Number of employees'),
       ],
       // Typed by the user in both legacy apps (one of them per work category).
-      'hlthcr_employee_count_at_risk' => [
+      'ohs_employee_count_at_risk' => [
         'class' => 'Integer',
         'title' => $this->translate('Number of employees at risk'),
       ],
-      'hlthcr_audit_interval_months' => [
+      'ohs_audit_interval_months' => [
         'class' => 'Integer',
         'title' => $this->translate('Audit interval'),
         'unit' => $this->translate('months'),
@@ -65,11 +65,11 @@ class CustomerColumns extends \Hubleto\Erp\Core
         'hint' => $this->getAuditIntervalHint(),
       ],
       // Both legacy apps keep the contract dates (one in a contract table, the other on the client).
-      'hlthcr_contract_valid_from' => [
+      'ohs_contract_valid_from' => [
         'class' => 'Date',
         'title' => $this->translate('Contract valid from'),
       ],
-      'hlthcr_contract_valid_to' => [
+      'ohs_contract_valid_to' => [
         'class' => 'Date',
         'title' => $this->translate('Contract valid to'),
         'description' => $this->translate('Empty: indefinite.'),
@@ -80,7 +80,7 @@ class CustomerColumns extends \Hubleto\Erp\Core
 
   public function getDefaultAuditIntervalMonths(): int
   {
-    $clientsApp = $this->appManager()->getApp(\Hubleto\App\External\WaiBlue\HlthcrClients\Loader::class);
+    $clientsApp = $this->appManager()->getApp(\Hubleto\App\External\WaiBlue\OhsClients\Loader::class);
     $configuredMonths = 0;
     if ($clientsApp !== null) {
       $configuredMonths = $clientsApp->configAsInteger('defaultAuditIntervalMonths');
@@ -113,7 +113,7 @@ class CustomerColumns extends \Hubleto\Erp\Core
     $this->getModel(Customer::class)->getColumn('id_manager')
       ->setRequired(false)
       ->setDefaultHidden()
-      ->setReactComponent('HlthcrCoreNoInput')
+      ->setReactComponent('OhsCoreNoInput')
     ;
   }
 

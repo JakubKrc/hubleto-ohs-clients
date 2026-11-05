@@ -1,17 +1,17 @@
 <?php
 
-namespace Hubleto\App\External\WaiBlue\HlthcrClients\HubletoOverrides;
+namespace Hubleto\App\External\WaiBlue\OhsClients\HubletoOverrides;
 
 use Hubleto\App\Community\Contacts\Models\Contact as CommunityContact;
 
 /**
- * Hubleto's Contact model with the Hlthcr client visibility (registered in the HlthcrClients loader).
+ * Hubleto's Contact model with the Ohs client visibility (registered in the OhsClients loader).
  * Hubleto shows every contact person to everybody (see the patches documents).
  */
 class Contact extends CommunityContact
 {
-  use \Hubleto\App\External\WaiBlue\HlthcrCore\Models\Traits\BehavesAsCommunityModel;
-  use \Hubleto\App\External\WaiBlue\HlthcrCore\Models\Traits\OffersOnlyAllowedChanges;
+  use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\BehavesAsCommunityModel;
+  use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\OffersOnlyAllowedChanges;
 
   public string $recordManagerClass = ContactRecordManager::class;
 
