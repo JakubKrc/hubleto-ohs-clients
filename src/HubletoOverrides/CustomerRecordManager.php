@@ -3,33 +3,20 @@
 namespace Hubleto\App\External\WaiBlue\OhsClients\HubletoOverrides;
 
 use Hubleto\App\External\WaiBlue\OhsCore\Models\RecordManagers\Traits\OffersActiveRecords;
-use Hubleto\App\External\WaiBlue\OhsCore\Services\AccessScope;
 
 /**
- * Customers the user may see, also in dropdowns (a hygienist: own clients).
+ * Every user sees all clients; dropdowns offer the active ones.
  */
 class CustomerRecordManager extends \Hubleto\App\Community\Customers\Models\RecordManagers\Customer
 {
   use OffersActiveRecords;
 
+  // Hubleto's parent would limit the clients by user type because of id_owner, so it is left out
+  // (customers have no junctions).
   public function prepareReadQuery(mixed $query = null, int $level = 0, array|null $includeRelations = null): mixed
   {
-    if ($this->accessScope()->activeUserHasOhsRole()) {
-      // The Ohs role decides, so Hubleto's limit by user type is left out (customers have no junctions).
-      $query = \Hubleto\Framework\RecordManager::prepareReadQuery($query, $level, $includeRelations);
-      $query = $this->addTagsCount($query);
-    } else {
-      $query = parent::prepareReadQuery($query, $level, $includeRelations);
-    }
-
-    return $this->restrictToVisibleCustomers($query);
-  }
-
-  // Also builds the text of linked clients, so the owner of a branch sees the name of its client.
-  public function prepareLookupQuery(string $search): mixed
-  {
-    $query = parent::prepareLookupQuery($search);
-    return $this->accessScope()->restrictToLinkableCustomers($query, $this->table . '.id');
+    $query = \Hubleto\Framework\RecordManager::prepareReadQuery($query, $level, $includeRelations);
+    return $this->addTagsCount($query);
   }
 
   // Dropdowns offer active clients only, as in both legacy apps.
@@ -47,16 +34,5 @@ class CustomerRecordManager extends \Hubleto\App\Community\Customers\Models\Reco
         ->whereColumn('cross_customer_tags.id_customer', 'customers.id')
         ->selectRaw('COUNT(DISTINCT customer_tags.id)');
     }, 'tags_count');
-  }
-
-  private function restrictToVisibleCustomers(mixed $query): mixed
-  {
-    return $this->accessScope()->restrictToVisibleCustomers($query, $this->table . '.id');
-  }
-
-  private function accessScope(): AccessScope
-  {
-    $hubleto = \Hubleto\Erp\Loader::getGlobalApp();
-    return $hubleto->getService(AccessScope::class);
   }
 }

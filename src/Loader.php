@@ -17,7 +17,6 @@ class Loader extends \Hubleto\App\External\WaiBlue\OhsCore\OhsApp
   {
     parent::__construct();
     HubletoOverrides\Customer::register();
-    HubletoOverrides\Contact::register();
   }
 
   public function init(): void

@@ -5,13 +5,11 @@ namespace Hubleto\App\External\WaiBlue\OhsClients\HubletoOverrides;
 use Hubleto\App\Community\Customers\Models\Customer as CommunityCustomer;
 
 /**
- * Hubleto's Customer model with the Ohs client visibility (registered in the OhsClients loader).
- * Hubleto's own customer dropdown shows every client name to everybody (see the patches documents).
+ * Hubleto's Customer model with the Ohs client data (registered in the OhsClients loader).
  */
 class Customer extends CommunityCustomer
 {
   use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\BehavesAsCommunityModel;
-  use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\OffersOnlyAllowedChanges;
   use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\UsesStoredValues;
   use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\EmptyDatesAsNull;
   use \Hubleto\App\External\WaiBlue\OhsCore\Models\Traits\UsesCommunityCustomColumns;
@@ -99,7 +97,6 @@ class Customer extends CommunityCustomer
     return $columns;
   }
 
-  // Medical staff see clients and contacts read-only.
   public function describeForm(): \Hubleto\Framework\Description\Form
   {
     $description = parent::describeForm();
@@ -107,13 +104,13 @@ class Customer extends CommunityCustomer
     foreach (self::COLUMNS_IN_NEITHER_LEGACY_APP as $columnName) {
       unset($description->inputs[$columnName]);
     }
-    return $this->offerOnlyAllowedChanges($description);
+    return $description;
   }
 
   public function describeTable(): \Hubleto\Framework\Description\Table
   {
     $description = parent::describeTable();
     $description->hideColumns(array_merge(self::COLUMNS_IN_NEITHER_LEGACY_APP, ['virt_tags']));
-    return $this->offerOnlyAllowedChanges($description);
+    return $description;
   }
 }

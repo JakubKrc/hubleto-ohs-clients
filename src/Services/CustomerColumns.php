@@ -105,7 +105,7 @@ class CustomerColumns extends \Hubleto\Erp\Core
   }
 
   /**
-   * Hubleto's required "Manažér" is not required and not shown, and visibility does not use it (AccessScope).
+   * Hubleto's required "Manažér" is not required and not shown.
    * One legacy app has a regional manager, but only for notifications of its own modules. The column stays in the table.
    */
   public function hideManagerInCustomerModel(): void
