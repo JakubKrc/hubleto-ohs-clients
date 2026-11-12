@@ -5,12 +5,11 @@ namespace Hubleto\App\External\WaiBlue\OhsClients\Services;
 use Hubleto\App\Community\Auth\Models\User;
 use Hubleto\App\Community\Auth\Models\UserRole;
 use Hubleto\App\Community\Contacts\Models\Contact;
-use Hubleto\App\External\WaiBlue\OhsCore\Services\AccessScope;
 use Hubleto\App\External\WaiBlue\OhsCore\Services\Roles;
 
 /**
  * E-mail addresses for the CSV export of both legacy apps ("Export emailových adries"):
- * users of one role, all users, or the contact persons of the clients the user sees.
+ * users of one role, all users, or the contact persons of the clients.
  */
 class EmailExport extends \Hubleto\Erp\Core
 {
@@ -68,7 +67,7 @@ class EmailExport extends \Hubleto\Erp\Core
     return $emails;
   }
 
-  // Contact persons of active clients the active user sees.
+  // Contact persons of active clients.
   private function getClientContactEmails(): array
   {
     /** @var Contact */
@@ -79,7 +78,6 @@ class EmailExport extends \Hubleto\Erp\Core
         $activeCustomers->select('id')->from('customers')->where('is_active', 1);
       })
     ;
-    $query = $this->getService(AccessScope::class)->restrictToVisibleCustomers($query, 'contacts.id_customer');
 
     $emails = [];
     foreach ($query->get() as $contact) {

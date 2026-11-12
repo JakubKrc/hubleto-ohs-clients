@@ -8,7 +8,7 @@ use Hubleto\Framework\Db\Column\Varchar;
  * Type of the service contracted by the client. Both legacy apps have it, with different values,
  * so it is a code list the administrator edits.
  */
-class ClientType extends \Hubleto\App\External\WaiBlue\OhsCore\Models\OhsModel
+class ClientType extends \Hubleto\Erp\Model
 {
   public string $table = 'ohs_client_types';
   public string $recordManagerClass = RecordManagers\ClientType::class;

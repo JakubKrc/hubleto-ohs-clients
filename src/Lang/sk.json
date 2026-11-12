@@ -39,7 +39,6 @@
         "Client types": "Typy klientov",
         "Edit client types": "Upraviť typy klientov",
         "Save": "Uložiť",
-        "Only administrators and managers change the settings.": "Nastavenia menia iba administrátori a manažéri.",
         "Client data": "Údaje klientov"
     },
     "Components\\FormClientType": {

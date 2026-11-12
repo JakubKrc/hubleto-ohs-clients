@@ -20,13 +20,8 @@ class Settings extends \Hubleto\Erp\Controller
 
     $clientsApp = $this->appManager()->getApp(\Hubleto\App\External\WaiBlue\OhsClients\Loader::class);
 
-    /** @var \Hubleto\App\External\WaiBlue\OhsCore\Services\Roles */
-    $roles = $this->getService(\Hubleto\App\External\WaiBlue\OhsCore\Services\Roles::class);
-    $maySaveSettings = $roles->isActiveUserAdministratorOrManager();
-    $this->viewParams['maySaveSettings'] = $maySaveSettings;
-
     $settingsChanged = $this->router()->urlParamAsBool('settingsChanged');
-    if ($settingsChanged && $maySaveSettings) {
+    if ($settingsChanged) {
       $defaultAuditIntervalMonths = $this->router()->urlParamAsInteger('defaultAuditIntervalMonths');
       if ($defaultAuditIntervalMonths > 0) {
         $clientsApp->saveConfig('defaultAuditIntervalMonths', (string) $defaultAuditIntervalMonths);
